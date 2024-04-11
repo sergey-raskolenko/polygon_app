@@ -1,0 +1,30 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Polygon Table</title>
+</head>
+<body>
+<table border="1">
+    <thead>
+    <tr>
+        <th>Название</th>
+        <th>Полигон в виде списка координат</th>
+        <th>Признак пересечения антимеридиана</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for polygon in polygons %}
+    <tr>
+        <td>{{ polygon.name }}</td>
+        <td>
+            {% for point in polygon.polygon.coords %}
+            {{ point }}
+            {% endfor %}
+        </td>
+        <td>{{ polygon.intersects_antimeridian }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</body>
+</html>

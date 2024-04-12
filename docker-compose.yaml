@@ -4,15 +4,16 @@ services:
   db:
     image: postgis/postgis
     restart: always
-#    env_file: .env
-    environment:
-      - POSTGRES_DB=gis
-      - POSTGRES_USER=gis
-      - POSTGRES_PASSWORD=password
+    env_file: .env
     ports:
       - '5432:5432'
     volumes:
       - ./data/postgis:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 
   app:
@@ -20,14 +21,15 @@ services:
     env_file: .env
     tty: true
     command: >
-      sh -c "python manage.py migrate &&
+      sh -c "python manage.py makemigrations && python manage.py migrate &&
              python manage.py runserver 0.0.0.0:8000"
     ports:
       - '8000:8000'
     volumes:
       - .:/app
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
 
 volumes:

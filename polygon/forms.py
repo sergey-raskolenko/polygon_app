@@ -1,13 +1,14 @@
 from django import forms
-from polygon.models import Polygon
+from .models import PolygonModel
 
 
 class PolygonForm(forms.ModelForm):
     class Meta:
-        model = Polygon
-        fields = ['name',]
+        model = PolygonModel
+        fields = ['name', 'polygon']
 
-    latitude_1 = forms.FloatField(label='Latitude 1')
-    longitude_1 = forms.FloatField(label='Longitude 1')
-    latitude_2 = forms.FloatField(label='Latitude 2')
-    longitude_2 = forms.FloatField(label='Longitude 2')
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for i in range(4):
+            self.fields[f'latitude_{i+1}'] = forms.FloatField(label=f'Latitude {i+1}')
+            self.fields[f'longitude_{i+1}'] = forms.FloatField(label=f'Longitude {i+1}')

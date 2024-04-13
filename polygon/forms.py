@@ -3,6 +3,10 @@ from .models import PolygonModel
 
 
 class PolygonForm(forms.ModelForm):
+    """
+    Форма для создания экземпляра полигона с 4 точками
+    """
+
     class Meta:
         model = PolygonModel
         fields = ['name', 'polygon']

@@ -16,6 +16,12 @@ class PolygonCreateView(CreateView):
     form_class = PolygonForm
     success_url = reverse_lazy('polygon:polygon_list')
 
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data['title'] = "Создание полигона"
+
+        return context_data
+
     def form_invalid(self, form):
         messages.error(self.request, 'Неверные данные')
         return super().form_invalid(form)
@@ -29,14 +35,12 @@ class PolygonCreateView(CreateView):
                 intersects_antimeridian = True
         polygon.intersects_antimeridian = intersects_antimeridian
         points = [
-            [
                 (
                     form.cleaned_data[f'latitude_{i + 1}'],
                     form.cleaned_data[f'longitude_{i + 1}'],
                 )
                 for i in range(4)
             ]
-        ]
         if points[0] != points[-1]:
             points.append(points[0])
         polygon.polygon = Polygon(points)
@@ -51,3 +55,9 @@ class PolygonListView(ListView):
 
     model = PolygonModel
     context_object_name = 'polygons'
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data['title'] = "Список полигонов"
+
+        return context_data

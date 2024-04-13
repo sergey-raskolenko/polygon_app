@@ -15,6 +15,6 @@ urlpatterns = [
     path('create/', PolygonCreateView.as_view(), name='polygon_create'),
     path('list/', PolygonListView.as_view(), name='polygon_list'),
     path('api/', PolygonModelListAPIView.as_view(), name='api_list'),
-    path('api/create', PolygonModelCreateAPIView.as_view(), name='api_create'),
-    path('api/<int:pk>', PolygonModelRUDView.as_view(), name='api_rud'),
+    path('api/create/', PolygonModelCreateAPIView.as_view(), name='api_create'),
+    path('api/<int:pk>/', PolygonModelRUDView.as_view(), name='api_rud'),
 ]
